@@ -1,10 +1,16 @@
-{% include 'products/base.html'  %}
+{% extends "products/base.html" %}
 {% load static crispy_forms_tags %}
+
+
+{% block title %}
+ {{ title }}
+{% endblock %}
 
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/manage-shipping.css' %}">
 {% endblock %}
+
 
 
 
