@@ -1,0 +1,19 @@
+{% extends 'products/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/payment-success.css' %}">
+{% endblock %}
+
+<body>
+    <div class="container">
+        <h1><i class="fa-solid fa-check" style="color: #29bd1f;"></i> Payment Successful!</h1>
+        <p>Thank you for your payment. Your transaction was successful.</p>
+        <p>If you have any questions or need further assistance, please contact our support team.</p>
+    </div>
+</body>
+
+{% endblock %}

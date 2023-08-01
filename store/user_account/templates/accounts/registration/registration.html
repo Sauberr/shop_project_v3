@@ -1,0 +1,137 @@
+{% extends 'products/base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block title %}
+
+{{ title }}
+
+{% endblock %}
+
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                {% if form.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+                    {{ form.errors }}
+                </div>
+                {% endif %}
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Create an account</h3>
+                    </div>
+                    <div class="card-body center-form">
+                        <form id="registration-form" action="{% url 'user_account:registration' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                                <label class="small mb-1" for="{{ form.first_name.id_for_label }}">First Name</label>
+                                                {{ form.first_name }}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="{{ form.last_name.id_for_label }}">Last Name</label>
+                                                {{ form.last_name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="{{ form.username.id_for_label }}">Username</label>
+                                            {{ form.username }}
+                                        </div>
+                                         <br>
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="{{ form.email.id_for_label }}">Email</label>
+                                            {{ form.email }}
+                                            <p id="error-mail"></p>
+                                        </div>
+                                    </div>
+                                     <br>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="{{ form.password1.id_for_label }}">Password</label>
+                                                {{ form.password1 }}
+                                            </div>
+                                        </div>
+                                         <br>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="{{ form.password2.id_for_label }}">Password Again</label>
+                                                {{ form.password2 }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1"></label>
+                                                {{ form.captcha|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="small mb-1"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            <div class="form-group mt-4 mb-0">
+                                <input class="btn btn-secondary btn-block" type="submit" value="Create account" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="small"><a href="{% url 'user_account:login' %}">Already have an account? Login</a></div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+        <br>
+        <br>
+
+<script>
+        // Check user email
+        $(document).ready(function() {
+            $('#registration-form').submit(function(event) {
+                event.preventDefault();
+                var email = $('#id_email').val();
+                $.ajax({
+                    method: 'POST',
+                    url: '{% url 'user_account:check-email' %}',
+                    data: {
+                        'email': email,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.exists) {
+                            $('#error-mail').text('This email is already in use.');
+                        } else {
+                            $('#registration-form')[0].submit();
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+        });
+</script>
+
+{% endblock %}

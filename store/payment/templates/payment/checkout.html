@@ -1,0 +1,167 @@
+{% include "products/base.html" %}
+
+
+{% load static %}
+
+
+{% block content %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+
+    <body>
+
+        <br>
+
+        <div class="container bg-white shadow-md p-5" style="width:500px; border-radius:20px;">
+
+            <form id="form">
+
+                <div>
+
+                    <h3> <i class="fa fa-chevron-circle-right" aria-hidden="true"></i> &nbsp; Complete your order </h3>
+
+                    <p> Please enter in the relevant information below. </p>
+
+
+
+                    <hr>
+
+                    <br>
+
+                    <div class="form-field">
+
+                        <input class="form-control validate" id="name" type="text" placeholder="Full name*" autocomplete="off" value="{{ shipping.full_name }}" required>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="form-field">
+
+                        <input class="form-control validate" id="email" type="email" placeholder="Email address*" autocomplete="off" value="{{ shipping.email }}" required>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="form-field">
+
+                        <input class="form-control validate" id="address1" type="text" placeholder="Address 1*" autocomplete="off" value="{{ shipping.address1 }}" required>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="form-field">
+
+                        <input class="form-control validate" id="address2" type="text" placeholder="Address 2*" autocomplete="off" value="{{ shipping.address2 }}" required>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="form-field">
+
+                        <input class="form-control validate" id="city" type="text" placeholder="City*" autocomplete="off" value="{{ shipping.city }}" required>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="form-field">
+
+                        <input class="form-control" id="state" type="text" placeholder="State (Optional)" autocomplete="off" value="{{ shipping.state }}">
+
+                    </div>
+
+
+                    <br>
+
+
+                    <div class="form-field">
+
+                        <input class="form-control" id="zipcode" type="text" placeholder="Zip code (Optional)" autocomplete="off" value="{{ shipping.zipcode }}">
+
+                    </div>
+
+                </div>
+
+                <br>
+
+
+
+               <button id="complete-order" type="submit" class="btn btn-primary navbar-btn text-white"> &nbsp; Complete order </button>
+
+
+                <br> <br>
+
+
+                <div id="paypal-button-container"></div>
+                <script src="https://www.paypal.com/sdk/js?client-id=AViFM_g_S_EyBgXIsU-k_4QiK8ZWGDcEax1_923d_rG48UOhsPhv8inLaAUUEE-8TverOEUKZneI2DQx&currency=USD"></script>
+
+
+            </form>
+
+
+        </div>
+
+
+</body>
+{% endblock %}
+
+<script>
+
+    // Complete checkout
+
+    $(document).on('submit', function(e){
+        e.preventDefault();
+        $.ajax({
+           type: 'POST',
+           url: '{% url 'payment:complete-order' %}',
+           data: {
+                name: $('#name').val(),
+                email: $('#email').val(),
+                address1: $('#address1').val(),
+                address2: $('#address2').val(),
+                city: $('#city').val(),
+                state: $('#state').val(),
+                zipcode: $('#zipcode').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+           },
+
+           success: function(json){
+                //console.log(json)
+                window.location.replace('{% url 'payment:payment-success' %}');
+
+           },
+
+           error: function(xhr, errmsg, err){
+                window.location.replace('{% url 'payment:payment-failed' %}');
+
+           }
+
+        });
+    })
+
+</script>
+
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+{% extends 'products/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/payment-failed.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+
+<body>
+    <div class="container">
+        <h1><i class="fa-solid fa-xmark" style="color: #d82c0e;"></i> Payment Failed</h1>
+        <p>We're sorry, but there was an issue processing your payment.</p>
+        <p>Please check your payment details and try again. If the problem persists, contact our support team for assistance.</p>
+    </div>
+</body>
+{% endblock %}

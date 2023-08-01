@@ -1,0 +1,306 @@
+{% extends 'products/base.html' %}
+
+{% load static mathfilters %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+{% endblock %}
+
+{% block title %}
+
+{{ title }}
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<title> {{ title }} </title>
+
+<main class="pt-5">
+
+    <div class="container">
+
+      <h1 class="h5"> Shopping cart </h1>
+
+	<hr>
+
+    {% for item in cart %}
+
+
+    {% with product=item.product %}
+
+      <br>
+
+      <div class="row mb-4 border product-item">
+
+        <div class="col-md-3 col-lg-2 order-md-first bg-light">
+
+            <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{ product.image.url }}">
+
+        </div>
+
+
+        <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
+
+          <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset"> <!-- Product get absolute url -->
+
+            <h1 class="h5 pt-2"> {{ product.name }} </h1>
+
+          </a>
+
+          <div class="border">
+
+            <div class="col border-bottom">
+
+                <div class="row p-3">
+
+                <div class="col-6"> Product </div>
+
+                <div class="col-6 text-end"><span class="h6 fw-bold">$ {{ product.price|mul:item.qty }} </span></div>
+
+              </div>
+
+            </div>
+
+            <div class="col " style="padding-left: 10px;">
+
+              <div class="row p-3">
+
+                <div class="col-12">
+
+                  <label for="select">Qty</label>
+
+                  &nbsp;
+
+                  <select id="select{{ product.id }}">
+
+                    <option selected>
+
+                        {{ item.qty }}
+
+                    </option>
+
+                    <option value="">1</option>
+
+                    <option value="">2</option>
+
+                    <option value="">3</option>
+
+                    <option value="">4</option>
+
+                    <option value="">5</option>
+
+                  </select>
+
+                  <br> <br>
+
+                  <label for="select">Size</label>
+
+
+                  <select id="select1{{product.id}}">
+
+                   <option selected>
+
+                       {{ item.size }}
+
+                    </option>
+
+                    <option value="1">L</option>
+
+                    <option value="2">M</option>
+
+                    <option value="3">S</option>
+
+                    <option value="4">XL</option>
+
+
+                  </select>
+
+
+
+                </div>
+
+            </div>
+
+
+                <a href="#"  data-index="{{ product.id }}" class="update-button"><i class="fa-solid fa-arrows-rotate" style="color: #005eff;"></i></a>
+
+                  &nbsp;
+
+
+                <a href="#" data-index="{{ product.id }}"  class="delete-button"><i class="fa-solid fa-trash" style="color: #f00a0a;"></i></a>
+
+            <br>
+            <br>
+            </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% endwith %}
+    {% endfor %}
+
+        <div class="col-12 text-end">
+            <div class="h6 fw-bold">
+                Sub total: $ <div id="total" class="d-inline-flex"> {{ cart.get_discounted_total }} </div>
+            </div>
+            <br>
+            <div class="col-12 text-right">
+                {% if cart.coupon %}
+                    <form method="POST" action="{% url 'cart:cart-summary' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="remove_coupon">
+                        <button type="submit" class="btn btn-danger"> Remove Coupon </button>
+                    </form>
+                {% else %}
+
+                    <form method="POST" action="{% url 'cart:cart-summary' %}">
+                        {% csrf_token %}
+                         <div class="row justify-content-end">
+                            <div class="col-sm-6 text-right">
+                                <input type="hidden" name="action" value="apply_coupon">
+                                <br>
+                                <input class="form-control me-sm-2 text-right" type="text" name="coupon_code" placeholder="Enter coupon code">
+                                <br>
+                                <button type="submit" id="apply-coupon" class="btn btn-primary"> Apply Coupon </button>
+                            </div>
+                         </div>
+                    </form>
+                {% endif %}
+                        <form method="POST" action="{% url 'cart:cart-clear' %}">
+                            <input type="hidden" name="action" value="clear">
+                            <br>
+                            <button type="button" id="clear-button" class="btn btn-danger">Clear Cart</button>
+                        </form>
+            </div>
+            <a href="{% url 'payment:checkout' %}" class="btn btn-primary my-2">
+                <i class="fa fa-chevron-circle-right" aria-hidden="true"></i> Proceed to checkout
+            </a>
+            <br>
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+
+ </main>
+
+
+<script>
+       // Clear button
+       $(document).on('click', '#clear-button', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "cart:cart-clear" %}',
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: 'post'
+                },
+                success: function(response) {
+                    location.reload();
+                    document.getElementById("cart-qty").textContent = json.qty;
+                    document.getElementById("total").textContent = json.total;
+                },
+                error: function(xhr, errmsg, err) {
+                    // Handle errors
+                }
+            });
+       });
+
+    // Apply coupon button
+    $(document).on('click', 'form[action$="cart-summary"]', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:cart-summary" %}',
+            data: form.serialize(),
+            success: function(response) {
+                location.reload();
+                document.getElementById("cart-qty").textContent = response.qty;
+                document.getElementById("total").textContent = response.total;
+            },
+            error: function(xhr, errmsg, err) {
+                // Handle errors
+            }
+        });
+    });
+
+
+
+    // Delete button
+    $(document).on('click', '.delete-button', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:cart-delete" %}',
+            data: {
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: 'post'
+            },
+
+            success: function(json){
+                 //console.log(json)
+                 location.reload();
+                 document.getElementById("cart-qty").textContent = json.qty
+                 document.getElementById("total").textContent = json.total
+
+            },
+
+            error: function(xhr, errmsg, err){
+            }
+
+        });
+    })
+
+
+    // Update button
+    $(document).on('click', '.update-button', function(e) {
+        e.preventDefault();
+        var theproductid = $(this).data('index');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:cart-update" %}',
+            data: {
+                product_id: $(this).data('index'),
+                product_quantity: $('#select' + theproductid + ' option:selected').text(),
+                product_size: $('#select1' + theproductid + ' option:selected').text(),
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: 'post'
+            },
+
+            success: function(json){
+                 location.reload();
+                 document.getElementById("cart-qty").textContent = json.qty
+                 document.getElementById("total").textContent = json.total
+
+            },
+
+            error: function(xhr, errmsg, err){
+            }
+
+        });
+    })
+
+
+
+
+</script>
+
+
+
+{% endblock %}

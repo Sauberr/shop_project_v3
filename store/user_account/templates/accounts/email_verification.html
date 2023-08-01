@@ -1,0 +1,32 @@
+{% extends 'products/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">Congratulations</h3>
+                            </div>
+                            <div class="card-body text-center">
+                                <h4>Your account has been successfully verified!</h4>
+                            </div>
+                            <div class="card-footer text-center">
+                                <div class="small"><a href="{% url 'user_account:login' %}">Continue</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

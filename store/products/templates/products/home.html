@@ -1,0 +1,42 @@
+{% extends "products/base.html" %}
+
+
+{% load static %}
+
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<div class="content">
+  <section>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="mt-5 title">IGUS</h1>
+                <h5 class="subtitle">
+                    New looks and top brands on IGUS.
+                    Free worldwide shipping! Outlet: up to -70% Own brand. -20% for new customers with promo code - "IGUS".
+                    <hr>
+                </h5>
+                    <a href="{% url 'products:product' %}"><button type="button" class="btn btn-secondary">Start buy</button></a>
+            </div>
+        </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+
+
+{% block footer %}
+<footer class="footer bg-dark text-center">
+    <ul class="social-icons">
+        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+    </ul>
+        <p class="footer-text">2023-2024 IGUS.com</p>
+</footer>
+
+{% endblock %}

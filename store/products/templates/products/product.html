@@ -1,0 +1,106 @@
+{% extends 'products/base.html' %}
+
+{% load static humanize cache %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+{% endblock %}
+
+
+
+
+{% block title %} {{ title }} {% endblock %}
+
+
+{% block search %}
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div style="margin-right: 8px;">
+            <i class="fa-solid fa-magnifying-glass text-white"></i>
+        </div>
+        <form class="d-flex" action="" method="get">
+            <input class="form-control me-sm-2" type="search" name="search" placeholder="Search">
+        </form>
+
+    </div>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<body>
+<div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <h1 class="my-4">Categories</h1>
+          <hr>
+        <div class="list-group">
+          {% for category in all_categories %}
+          <a href="{{ category.get_absolute_url }}" class="list-group-item">{{ category.name|capfirst }}</a>
+          {% endfor %}
+
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="row">
+           <hr>
+            {% cache 5 in product %}
+            {% for product in object_list %}
+              <div class="col-lg-4">
+                <div class="card">
+                  <img src="{{ product.image.url }}" alt="Product 1">
+                  <br>
+                  {% if product.quantity %}
+                  <a class="text-decoration-none title" href="{{ product.get_absolute_url  }}"><h4><i class="fa-solid fa-check" style="color: #29bd1f;"></i> {{ product.name }}</h4></a>
+                  {% else %}
+                  <a class="text-decoration-none title" ><h4><i class="fa-solid fa-xmark" style="color: #d82c0e;"></i>{{ product.name }}</h4></a>
+                  {% endif %}
+                  <p class="price">${{ product.price|intcomma }}</p>
+                </div>
+              </div>
+              {% endfor %}
+            {% endcache %}
+             {% if search and products.paginator.num_pages == 1 and products.paginator.count == 0 %}
+                    <div class="col-lg-12">
+                        <div class="alert alert-warning" role="alert">
+                            No matching results found for "{{ search }}"
+                        </div>
+                        <a href="{% url 'products:product' %}"><button type="button" class="btn btn-secondary"><i class="fa fa-sign-out" aria-hidden="true"></i> Back</button></a>
+                    </div>
+             {% endif %}
+        </div>
+          {% if is_paginated %}
+          <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
+                        <a class="page-link" href="{% if page_obj.has_previous %} {% url 'products:paginator' page_obj.previous_page_number %} {% else %} # {% endif %}" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    {% for page in paginator.page_range %}
+                        <li class="page-item"><a class="page-link" href="{% url 'products:paginator' page %}">{{ page }}</a></li>
+                    {% endfor %}
+                    <li class="page-item {% if not page_obj.has_next %} disabled {% endif %} ">
+                        <a class="page-link" href="{% if page_obj.has_next %} {% url 'products:paginator' page_obj.next_page_number %} {% else %} # {% endif %}">Next</a>
+                    </li>
+                </ul>
+          </nav>
+          {% endif %}
+
+    <br>
+    <br>
+    <footer class="footer bg-dark text-center">
+    <ul class="social-icons">
+        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+    </ul>
+        <p class="footer-text">2023-2024 IGUS.com</p>
+</footer>
+
+</div>
+
+{% endblock %}
+
+

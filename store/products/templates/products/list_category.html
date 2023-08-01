@@ -1,0 +1,70 @@
+{% extends 'products/base.html' %}
+
+{% load static humanize %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+{% endblock %}
+
+{% block title %}
+
+{{ title }}
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<main>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="pb-3 h5"> {{ category.name|capfirst }} </div>
+
+
+      <hr>
+
+      <br>
+
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+
+        {% for product in object_list %}
+
+        <div class="col">
+          <div class="card shadow-sm">
+          <img class="img-fluid" alt="Responsive image" src="{{ product.image.url }}">
+
+            <div class="card-body">
+              <p class="card-text">
+                {% if product.quantity %}
+                <a class="text-info text-decoration-none" href="{{ product.get_absolute_url }}"> {{ product.name }} </a>
+                {% else %}
+                <a class="text-info text-decoration-none"> {{ product.name }} </a>
+                {% endif %}
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <h5> $ {{ product.price|intcomma }} </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% empty %}
+          <h2 class="text-center" style="white-space: nowrap;"> Sorry, but this session is empty now </h2>
+
+        {% endfor %}
+
+
+      </div>
+      <a href="{% url 'products:product' %}"><button type="button" class="btn btn-secondary"><i class="fa fa-sign-out" aria-hidden="true"></i> Back</button></a>
+    </div>
+  </div>
+
+
+</main>
+
+{% endblock %}

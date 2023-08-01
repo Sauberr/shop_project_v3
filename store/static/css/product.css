@@ -1,0 +1,93 @@
+  body {
+      background: white;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
+}
+
+
+
+.title {
+color: black;
+}
+
+.title:hover {
+color: grey;
+}
+
+
+.list-group-item:hover {
+color: grey;
+}
+
+.container {
+      margin-top: 20px;
+}
+
+.card {
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(1, 2, 0, 0.3);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card h5 {
+     font-size: 18px;
+     margin: 5px 0;
+}
+
+.card p {
+     font-size: 14px;
+     margin: 5px 0;
+}
+
+.card .price {
+     font-weight: bold;
+}
+
+
+.pagination {
+     margin-top: 20px;
+}
+
+.pagination a {
+     color: white;
+     float: left;
+     padding: 8px 16px;
+     text-decoration: none;
+     transition: background-color 0.3s;
+     border: 1px solid #ddd;
+     margin: 0 4px;
+}
+
+
+.pagination a.active {
+     background-color: grey;
+     color: grey;
+     border: 1px solid grey;
+}
+
+.pagination a:hover {
+     background-color: grey;
+     color: white;
+     border: 1px solid grey;
+}
+
+.pagination a:hover:not(.active) {
+      background-color: grey;
+}
+
+.page-link {
+background-color: #808080;
+}
+
+

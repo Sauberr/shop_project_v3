@@ -1,0 +1,26 @@
+body {
+     background: white;
+     -webkit-background-size: cover;
+     -moz-background-size: cover;
+     background-size: cover;
+     -o-background-size: cover;
+     height: 14vh;
+     font-family: Arial, sans-serif;
+}
+
+.container {
+    margin-top: 200px;
+    box-shadow: 0 4px 8px rgba(1, 2, 0, 0.8);
+    border-radius: 20px;
+}
+
+h1 {
+    color: #FF0000;
+    text-align: center
+}
+p {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: center
+}

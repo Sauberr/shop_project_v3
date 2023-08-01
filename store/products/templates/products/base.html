@@ -1,0 +1,216 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
+    <link rel="icon" href="{% static 'media/logo/lg.png' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <title>{% block title %} {% endblock %}</title>
+
+{% block css %} {% endblock %}
+
+
+<style>
+        /* Add animation to the navbar toggler icon */
+        .navbar-toggler-icon {
+            background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba(0, 0, 0, 0.5)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 8h24M4 16h24M4 24h24"/%3E%3C/svg%3E');
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Apply the animation when the navbar is toggled */
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+        }
+        .navbar-nav {
+  margin-left: auto;
+}
+
+.navbar-collapse {
+      justify-content: center;
+}
+
+.form-control {
+       margin: 0 auto;
+}
+
+.navbar-nav > li {
+       margin-left: 10px;
+}
+
+.navbar .form-inline .form-control {
+         width: auto;
+         margin-right: 5px;
+}
+
+.navbar .form-inline .btn {
+        margin-bottom: 0;
+}
+
+.navbar .nav-item:last-child {
+           margin-right: 15px;
+
+}
+
+
+
+</style>
+
+    <script>
+        // Toggle the class on the navbar toggler button to trigger the animation
+        $(document).ready(function() {
+            $('.navbar-toggler').on('click', function() {
+                $(this).toggleClass('collapsed');
+            });
+        });
+    </script>
+
+    <script>
+        // Toggle the class on the navbar toggler button to trigger the animation
+        $(document).ready(function() {
+            $('.navbar-toggler').on('click', function() {
+                $(this).toggleClass('collapsed');
+            });
+        });
+    </script>
+
+
+<nav class="navbar navbar-expand-lg bg-dark justify-content-center" data-bs-theme="dark">
+    <a class="navbar-brand main-heading text-white" href="{% url 'products:home' %}">
+        &nbsp; &nbsp; I̷G̷U̷S
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    {% block search %}
+
+    {% endblock %}
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'products:product' %}" id="catalog" role="button"  aria-expanded="false">
+                    Catalog <i class="fa-solid fa-bag-shopping" style="color: #ffffff;"></i>
+                </a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item dropdown text-end">
+                    <a href="#" class="nav-link-dropdown-toggle nav-link dropdown-toggle text-white" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{% if user.image %} {{ user.image.url }} {% else %} {% static 'media/user/default_avatar.jpg' %}  {% endif %}" alt="mdo" width="28" height="28" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'user_account:profile'  %}" id="dashboard" role="button" aria-expanded="false"><i class="fa-solid fa-house" style="color: #ffffff;"></i>
+                                Profile
+                            </a>
+                        </li>                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'user_account:password_change' %}" id="changepassword" role="button" aria-expanded="false"><i class="fa-solid fa-lock" style="color: #ffffff;"></i>
+                                Password Change
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'user_account:logout' %}" id="logout" role="button" aria-expanded="false"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                                Logout
+                            </a>
+                        </li>
+                        {% if user.is_superuser or user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'admin:index' %}" id="admin" role="button" aria-expanded="false"><i class="fa-solid fa-gear" style="color: #ffffff;"></i>
+                                Admin panel
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                {% endif %}
+
+                    </ul>
+                </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'user_account:registration' %}" id="register" role="button" aria-expanded="false">
+                    Register
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'user_account:login' %}" id="login" role="button" aria-expanded="false"><i class="fa-solid fa-user"></i>
+                    Login
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a type="button" role="button" href="{% url 'cart:cart-summary' %}" class="btn btn-outline-secondary">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    &nbsp;
+                    <div id="cart-qty" class="d-inline-flex">
+
+                        {% with qty_amount=cart|length %}
+
+                                {% if qty_amount > 0 %}
+
+                                    {{ qty_amount }}
+
+                                    {% else %}
+
+                                        0
+
+                                {% endif %}
+
+                        {% endwith %}
+
+                    </div>
+
+
+
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#" role="button" aria-expanded="false">
+                    &nbsp;<i class="fa-sharp fa-solid fa-phone" style="color: #ffffff;"></i>
+                    <div id="telephone" class="d-inline-flex">+ 657 654 554 344</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+{% for message in messages %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <h6 id="message-timer" class="alert alert-success text-center"><i class="fa fa-sign-out" aria-hidden="true"></i> &nbsp; {{ message }}</h6>
+    {% endif %}
+
+     {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+
+        <h6 id="message-timer" class="alert alert-danger text-center"> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>  &nbsp; {{ message }}</h6>
+
+    {% endif %}
+
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+
+        <h6 id="message-timer" class="alert alert-info text-center"><i class="fa fa-check-circle" aria-hidden="true"></i>  &nbsp; {{ message }}</h6>
+    {% endif %}
+
+{% endfor %}
+    <body>
+
+
+    {% block content %} {% endblock %}
+
+
+    </body>
+
+    <script src="{% static 'js/app.js' %}"></script>
+
+
+{% block footer %} {% endblock %}
+
+
+
+
+</html>
