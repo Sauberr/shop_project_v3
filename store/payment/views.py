@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from payment.models import ShippingAddress, Order, OrderItem
 from cart.cart import Cart
 from django.http import JsonResponse
@@ -73,3 +73,16 @@ def payment_success(request):
 
 def payment_failed(request):
     return render(request, 'payment/payment_failed.html')
+
+
+def orders(request):
+    order = Order.objects.filter(user=request.user.id)
+    context = {'orders': order, 'title': 'Orders'}
+    return render(request, 'payment/orders.html', context)
+
+
+def orderitems(request):
+    orderitems = OrderItem.objects.filter(user=request.user.id)
+    context = {'orderitems': orderitems, 'title': 'Yoor orders goods'}
+    return render(request, 'payment/user_goods.html', context)
+

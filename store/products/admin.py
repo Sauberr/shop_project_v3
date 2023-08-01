@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from products.models import Category, Product, RatingStar, Rating
+from products.models import Category, Product, Review
 
 
 @admin.register(Category)
@@ -21,14 +21,10 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
-@admin.register(RatingStar)
-class RatingStarAdmin(admin.ModelAdmin):
-    list_display = ('value',)
-    fields = ('value',)
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+    fields = ('user', 'product', 'stars', 'text')
 
 
-@admin.register(Rating)
-class RatingAdmin(admin.ModelAdmin):
-    list_display = ('ip',)
-    fields = ('ip', 'star', 'product')
 

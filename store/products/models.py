@@ -1,6 +1,6 @@
 from django.db import models
-from django.db.models import Avg
 from django.urls import reverse
+from user_account.models import User
 
 
 class Category(models.Model):
@@ -27,9 +27,6 @@ class Product(models.Model):
     image = models.ImageField(upload_to='images/',  null=True, blank=True, default='default_image.jpg')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='product', null=True)
 
-    def average_rating(self):
-        return self.ratings.aggregate(Avg('value'))['value__avg'] or 0
-
     class Meta:
         verbose_name_plural = 'products'
 
@@ -40,29 +37,21 @@ class Product(models.Model):
         return reverse('products:product-info', args=[self.slug])
 
 
-class RatingStar(models.Model):
-    value = models.SmallIntegerField('Value', default=0)
-    product = models.ForeignKey(Product, related_name='ratings', on_delete=models.CASCADE)
+class Review(models.Model):
+    STARS_CHOICES = (
+        (1, '1 star'),
+        (2, '2 stars'),
+        (3, '3 stars'),
+        (4, '4 stars'),
+        (5, '5 stars'),
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    stars = models.IntegerField(choices=STARS_CHOICES)
+    text = models.TextField(max_length=300)
 
     def __str__(self):
-        return f'{self.value}'
-
-    class Meta:
-        verbose_name_plural = 'rating stars'
-        verbose_name = 'rating stars'
-        ordering = ['-value']
-
-
-class Rating(models.Model):
-    ip = models.CharField('IP address', max_length=15)
-    star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name='star')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='product')
-
-    def __str__(self):
-        return f'{self.star} - {self.product}'
-
-    class Meta:
-        verbose_name = 'Rating'
-        verbose_name_plural = 'Rating'
+        return f"{self.get_stars_display()}" + str(self.stars)
 
 

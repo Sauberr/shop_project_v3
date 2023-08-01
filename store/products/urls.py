@@ -13,9 +13,11 @@ urlpatterns = [
     # Pagination
     path('page/<int:page>/', ProductsListView.as_view(), name='paginator'),
     # Individual product
-    path('product/<slug:product_slug>/', ProductDetailView.as_view(), name='product-info'),
+    path('product/<slug:product_slug>/', product_info, name='product-info'),
     # Individual category
     path('category/<slug:category_slug>/', ListCategoryView.as_view(), name='list-category'),
+
+    path('add-review/<int:product_id>/', add_review, name='add_review'),
 ]
 
 

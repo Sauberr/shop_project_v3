@@ -42,25 +42,6 @@
 
 
                 <p> {{ product.description }} </p>
-                <div class="row p-3">
-                    <div class="col-6">
-                        <label for="select">Rating</label>
-                        <div class="rating">
-                            <form method="POST" id="rating-form">
-                            {% csrf_token %}
-                                <input type="radio" name="rating" value="5" id="star5"><label for="star5"><i class="fas fa-star"></i></label>
-                                <input type="radio" name="rating" value="4" id="star4"><label for="star4"><i class="fas fa-star"></i></label>
-                                <input type="radio" name="rating" value="3" id="star3"><label for="star3"><i class="fas fa-star"></i></label>
-                                <input type="radio" name="rating" value="2" id="star2"><label for="star2"><i class="fas fa-star"></i></label>
-                                <input type="radio" name="rating" value="1" id="star1"><label for="star1"><i class="fas fa-star"></i></label>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
                 <div class="">
 
                     <div class="col">
@@ -125,13 +106,45 @@
 
                             </div>
                             <br> <br>
-                            <div class="col-3 text-left">
+                            <div class="col-12 text-left">
 
                                 <button type="button" id="add-button" value="{{ product.id }}" class="btn btn-secondary btn-sm">
 
                                 Add to cart
 
                                 </button>
+
+                                <br>
+                                <br>
+
+                                <a href="{% url 'products:add_review' product.id %}"><button type="button" class="btn btn-secondary"><i class="fa-solid fa-star"></i> Rate</button></a>
+                                <br>
+                                <br>
+                                <h4>All Reviews</h4>
+                                <hr>
+                                        {% if reviews %}
+                                            {% for review in reviews %}
+                                                <div class="col-12 mb-4">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">{{ review.product.name }}</h5>
+                                                            {% for star in review.stars.get_stars_display %}
+                                                            <div class="rating">
+                                                                <i class="fas fa-star" style="color: yellow;"></i>
+                                                            </div>
+                                                            {% endfor %}
+                                                            <p class="card-text">{{ review.user }}:</p>
+                                                            <p class="card-text">{{ review.text }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="col-md-12">
+                                                <p>No reviews yet.</p>
+                                            </div>
+                                        {% endif %}
+
 
 
                             </div>

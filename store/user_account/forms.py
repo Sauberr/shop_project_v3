@@ -69,7 +69,6 @@ class UserRegistrationForm(UserCreationForm):
         # return user
 
 
-
 class PasswordChangingPassword(PasswordChangeForm):
 
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -138,6 +137,8 @@ class UserProfileForm(UserChangeForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'image', 'username', 'email')
+
+
 
 
 

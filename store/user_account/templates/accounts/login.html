@@ -20,7 +20,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5">
-                        {% if messages or form.non_field_errors %}
+                        {% if messages or form.errors %}
                         <div class="alert {% if messages %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade show" role="alert"
                              style="margin-top: 50px;">
                             {% if messages %}

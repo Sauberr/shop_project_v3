@@ -25,13 +25,13 @@ body {
     color: #ddd;
 }
 
-.rating label i {
+.rating {
     position: absolute;
     clip: rect(0, 20px, 20px, 0);
 }
 
-.rating label:hover,
-.rating label:hover ~ label,
-.rating input:checked ~ label {
+.rating :hover,
+.rating :hover ~ label,
+.rating :checked ~ label {
     color: #ffc107;
 }
