@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.utils import timezone
 from django.db import models
 from django.urls import reverse
@@ -38,6 +39,8 @@ class Product(models.Model):
         return reverse('products:product-info', args=[self.slug])
 
 
+
+
 class Review(models.Model):
     STARS_CHOICES = (
         (1, '1 star'),
@@ -54,6 +57,6 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.get_stars_display()}" + str(self.stars)
+        return f'{self.user}'
 
 

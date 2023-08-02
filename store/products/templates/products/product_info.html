@@ -42,7 +42,7 @@
 
 
                 <p> {{ product.description }} </p>
-                <div class="">
+                <p> {{ get_average_stars }} </p>
 
                     <div class="col">
 
@@ -116,8 +116,9 @@
 
                                 <br>
                                 <br>
-
-                                <a href="{% url 'products:add_review' product.id %}"><button type="button" class="btn btn-secondary"><i class="fa-solid fa-star"></i> Rate</button></a>
+                                {% if user.is_authenticated %}
+                                    <a href="{% url 'products:add_review' product.id %}"><button type="button" class="btn btn-secondary"><i class="fa-solid fa-star"></i> Rate</button></a>
+                                {% endif %}
                                 <br>
                                 <br>
                                 <h4>All Reviews</h4>
@@ -128,11 +129,7 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <h5 class="card-title">{{ review.product.name }}</h5>
-                                                            {% for star in review.stars.get_stars_display %}
-                                                            <div class="rating">
-                                                                <i class="fas fa-star" style="color: yellow;"></i>
-                                                            </div>
-                                                            {% endfor %}
+                                                            <p class="card-text">{{ review.stars }} <i class="fas fa-star" style="color: yellow;"></i></p>
                                                             <p class="card-text">{{ review.user }}:</p>
                                                             <p class="card-text">{{ review.text }}</p>
                                                             <p class="card-text">{{ review.created_at }}</p>

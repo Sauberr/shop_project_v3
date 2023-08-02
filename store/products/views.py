@@ -87,12 +87,10 @@ class ProductsListView(TitleMixin, ListView):
 #     return render(request, 'products/product.html', context)
 
 
-
-
-
-
 def product_info(request, product_slug):
-    context = {'product': get_object_or_404(Product, slug=product_slug), 'title': 'Product detail page', 'reviews': Review.objects.all()}
+    product = get_object_or_404(Product, slug=product_slug)
+    context = {'product': get_object_or_404(Product, slug=product_slug), 'title': 'Product detail page',
+               'reviews': Review.objects.filter(product_id=product.id)}
     return render(request, 'products/product_info.html', context)
 
 
@@ -126,9 +124,6 @@ class ListCategoryView(TitleMixin, ListView):
 #     products = Product.objects.filter(category=category)
 #     context = {'category': category, 'products': products, 'title': 'Category page'}
 #     return render(request, 'products/list_category.html', context)
-
-
-
 
 
 def add_review(request, product_id):
