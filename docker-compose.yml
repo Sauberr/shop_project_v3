@@ -15,6 +15,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+    container_name: django-store
     networks:
       - my_network
 
