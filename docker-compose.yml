@@ -9,3 +9,25 @@ services:
 
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - my_network
+
+  redis:
+    image: redis:6.0.7
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - my_network
+
+networks:
+  my_network:
+
+
