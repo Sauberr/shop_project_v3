@@ -1,0 +1,64 @@
+{% extends 'products/base.html' %}
+{% load static humanize %}
+
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+
+<style>
+    .table {
+        box-shadow: 0 4px 8px rgba(1, 2, 0, 0.4);
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <section>
+        <div class="container pt-5">
+            <div class="text-center mt-5">
+                <h1>Orders</h1>
+                <div class="orders mt-5">
+                    <table class="table">
+                        <thead>
+                        <tr class="table-dark">
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Total paid</th>
+                            <th scope="col">Your goods</th>
+                            <th scope="col">Delete your oder</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if orders %}
+                          {% for order in orders %}
+                              <tr>
+                                  <th scope="row">{{ order.id}}</th>
+                                  <td>{{ order.full_name }}</td>
+                                  <td>{{ order.email }}</td>
+                                  <td>{{ order.date_ordered }}</td>
+                                  <td>{{ order.amount_paid|intcomma }} $.</td>
+                                  <td>
+                                      <a href="{% url 'payment:orderitems' %}">Look</a>
+                                  </td>
+                                  <td>
+                                      <a href="">Delete</a>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                        </tbody>
+                      {% else %}
+                          <h2>No orders</h2>
+                      {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

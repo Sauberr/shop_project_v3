@@ -1,0 +1,52 @@
+{% extends 'products/base.html' %}
+{% load static humanize %}
+
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+
+<style>
+    .table {
+        box-shadow: 0 4px 8px rgba(1, 2, 0, 0.4);
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <section>
+        <div class="container pt-5">
+            <div class="text-center mt-5">
+                <h1>Your goods</h1>
+                <div class="orders mt-5">
+                    <table class="table">
+                        <thead>
+                        <tr class="table-dark">
+                            <th scope="col">Order</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Price by 1</th>
+                            <th scope="col">User</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          {% for orderitem in orderitems %}
+                              <tr>
+                                  <th scope="row">{{ orderitem.order }}</th>
+                                  <td>{{ orderitem.product }}</td>
+                                  <td>{{ orderitem.quantity }}</td>
+                                  <td>{{ orderitem.price|intcomma }}$</td>
+                                  <td>{{ orderitem.user }} </td>
+                              </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
