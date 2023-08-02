@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.urls import reverse
 from user_account.models import User
@@ -50,6 +51,7 @@ class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     stars = models.IntegerField(choices=STARS_CHOICES)
     text = models.TextField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.get_stars_display()}" + str(self.stars)

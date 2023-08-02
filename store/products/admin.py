@@ -24,7 +24,7 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('user',)
-    fields = ('user', 'product', 'stars', 'text')
+    fields = ('user', 'product', 'stars', 'text', 'created_at')
 
 
 
