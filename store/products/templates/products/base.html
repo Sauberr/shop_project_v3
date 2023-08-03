@@ -114,7 +114,12 @@
                             <a class="nav-link text-white" href="{% url 'user_account:profile'  %}" id="dashboard" role="button" aria-expanded="false"><i class="fa-solid fa-house" style="color: #ffffff;"></i>
                                 Profile
                             </a>
-                        </li>                        <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'products:favorite-products' %}" id="favourite" role="button" aria-expanded="false"><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                                Favourite
+                            </a>
+                        </li>
+                       <li class="nav-item">
                             <a class="nav-link text-white" href="{% url 'user_account:password_change' %}" id="changepassword" role="button" aria-expanded="false"><i class="fa-solid fa-lock" style="color: #ffffff;"></i>
                                 Password Change
                             </a>
