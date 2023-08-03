@@ -118,6 +118,7 @@
                                 <br>
                                 {% if user.is_authenticated %}
                                     <a href="{% url 'products:add_review' product.id %}"><button type="button" class="btn btn-secondary"><i class="fa-solid fa-star"></i> Rate</button></a>
+                                    <a href="{% url 'products:add-to-favorites' product.id %}"><button type="button" class="btn btn-secondary"><i class="fa-solid fa-heart" style="color: #ffffff;"></i> Favourite</button></a>
                                 {% endif %}
                                 <br>
                                 <br>

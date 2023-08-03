@@ -39,8 +39,6 @@ class Product(models.Model):
         return reverse('products:product-info', args=[self.slug])
 
 
-
-
 class Review(models.Model):
     STARS_CHOICES = (
         (1, '1 star'),

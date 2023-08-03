@@ -35,7 +35,7 @@ class ProductsListView(TitleMixin, ListView):
         search = self.request.GET.get('search')
 
         if search:
-            queryset = queryset.filter(Q(name__icontains=search))
+            queryset = queryset.filter(name__icontains=search)
 
         return queryset
 
@@ -141,3 +141,33 @@ def add_review(request, product_id):
         form = ReviewForm()
 
     return render(request, 'products/add_reviews.html', {'form': form, 'product': product})
+
+
+def add_to_favorites(request, product_id):
+    if request.user.is_authenticated:
+        try:
+            product = Product.objects.get(pk=product_id)
+            request.user.favorite_products.add(product)
+        except Product.DoesNotExist:
+            pass
+    return redirect('products:favorite-products')
+
+
+def favorite_products(request):
+    if request.user.is_authenticated:
+        favorite_products = request.user.favorite_products.all()
+        return render(request, 'products/favorite_products.html', {'favorite_products': favorite_products})
+    else:
+        # Handle the case when the user is not authenticated
+        return redirect('user_account:login')
+
+
+def remove_from_favorites(request, product_id):
+    if request.user.is_authenticated:
+        try:
+            product = Product.objects.get(pk=product_id)
+            request.user.favorite_products.remove(product)
+        except Product.DoesNotExist:
+            # Handle the case when the product does not exist
+            pass
+    return redirect('products:favorite-products')

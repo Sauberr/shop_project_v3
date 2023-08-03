@@ -46,7 +46,7 @@
       <div class="col-lg-9">
         <div class="row">
            <hr>
-            {% cache 5 in product %}
+            {% cache 5 in products %}
             {% for product in object_list %}
               <div class="col-lg-4">
                 <div class="card">
@@ -61,8 +61,7 @@
                 </div>
               </div>
               {% endfor %}
-            {% endcache %}
-             {% if search and products.paginator.num_pages == 1 and products.paginator.count == 0 %}
+              {% if search and products.paginator.num_pages == 1 and products.paginator.count == 0 %}
                     <div class="col-lg-12">
                         <div class="alert alert-warning" role="alert">
                             No matching results found for "{{ search }}"
@@ -70,6 +69,7 @@
                         <a href="{% url 'products:product' %}"><button type="button" class="btn btn-secondary"><i class="fa fa-sign-out" aria-hidden="true"></i> Back</button></a>
                     </div>
              {% endif %}
+            {% endcache %}
         </div>
           {% if is_paginated %}
           <nav aria-label="Page navigation example">
