@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from payment.models import ShippingAddress, Order, OrderItem
+from payment.models import Order, OrderItem, ShippingAddress
 
 
 @admin.register(ShippingAddress)

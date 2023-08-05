@@ -1,15 +1,12 @@
 from django.core.paginator import EmptyPage, Paginator
-from django.db.models import Q, Avg
-from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.db.models import Avg, Q
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import ListView, TemplateView
 
 from common.views import TitleMixin
-from products.models import Category, Product, Review
-
-from django.shortcuts import render, redirect
 from products.forms import ReviewForm
+from products.models import Category, Product, Review
 
 
 class HomeView(TitleMixin, TemplateView):
@@ -35,7 +32,7 @@ class ProductsListView(TitleMixin, ListView):
         search = self.request.GET.get('search')
 
         if search:
-            queryset = queryset.filter(name__icontains=search)
+            queryset = queryset.filter(Q(name__icontains=search))
 
         return queryset
 
@@ -89,8 +86,14 @@ class ProductsListView(TitleMixin, ListView):
 
 def product_info(request, product_slug):
     product = get_object_or_404(Product, slug=product_slug)
+    reviews = Review.objects.filter(product=product)
+
+    if reviews:
+        average_stars = reviews.aggregate(Avg('stars'))['stars__avg']
+    else:
+        average_stars = None
     context = {'product': get_object_or_404(Product, slug=product_slug), 'title': 'Product detail page',
-               'reviews': Review.objects.filter(product_id=product.id)}
+               'reviews': Review.objects.filter(product_id=product.id), 'average_stars': average_stars}
     return render(request, 'products/product_info.html', context)
 
 

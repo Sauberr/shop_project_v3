@@ -1,8 +1,10 @@
-from datetime import timedelta
 import uuid
+from datetime import timedelta
+
 from celery import shared_task
 from django.utils.timezone import now
-from user_account.models import User, EmailVerification
+
+from user_account.models import EmailVerification, User
 
 
 @shared_task

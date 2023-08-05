@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from payment.models import ShippingAddress, Order, OrderItem
-from cart.cart import Cart
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+
+from cart.cart import Cart
+from payment.models import Order, OrderItem, ShippingAddress
 
 # Create your views here.
 

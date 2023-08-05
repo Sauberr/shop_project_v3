@@ -10,12 +10,12 @@ from django.views.generic import CreateView, UpdateView
 from django.views.generic.base import TemplateView
 
 from common.views import TitleMixin
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
 from user_account.forms import (PasswordChangingPassword, UserLoginForm,
                                 UserProfileForm, UserRegistrationForm,
                                 UserUpdateForm)
 from user_account.models import EmailVerification, User
-from payment.forms import ShippingForm
-from payment.models import ShippingAddress
 
 
 class UserLoginView(TitleMixin, LoginView):

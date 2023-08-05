@@ -42,7 +42,11 @@
 
 
                 <p> {{ product.description }} </p>
-                <p> {{ get_average_stars }} </p>
+                {% if average_stars %}
+                        <p>Average Stars: {{ average_stars }} <i class="fas fa-star" style="color: yellow;"></i></p>
+                    {% else %}
+                        <p>No reviews yet.</p>
+                    {% endif %}
 
                     <div class="col">
 
@@ -117,8 +121,8 @@
                                 <br>
                                 <br>
                                 {% if user.is_authenticated %}
-                                    <a href="{% url 'products:add_review' product.id %}"><button type="button" class="btn btn-secondary"><i class="fa-solid fa-star"></i> Rate</button></a>
-                                    <a href="{% url 'products:add-to-favorites' product.id %}"><button type="button" class="btn btn-secondary"><i class="fa-solid fa-heart" style="color: #ffffff;"></i> Favourite</button></a>
+                                    <a href="{% url 'products:add_review' product.id %}"><button type="button" class="btn btn-secondary btn-sm"><i class="fa-solid fa-star"></i> Rate</button></a>
+                                    <a href="{% url 'products:add-to-favorites' product.id %}"><button type="button" class="btn btn-secondary btn-sm"><i class="fa-solid fa-heart" style="color: #ffffff;"></i> Favourite</button></a>
                                 {% endif %}
                                 <br>
                                 <br>
