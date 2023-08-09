@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
@@ -28,8 +29,18 @@ urlpatterns = [
          name='password_reset_complete'),
 
     path('accounts/', include('allauth.urls')),
+    path('i18/', include('django.conf.urls.i18n')),
 
 ]
+
+
+urlpatterns += i18n_patterns(
+    path('', include('products.urls', namespace='products')),
+    path('cart/', include('cart.urls', namespace='cart')),
+    path('user_account/', include('user_account.urls', namespace='user_account')),
+    path('payment/', include('payment.urls', namespace='payment')),
+)
+
 
 if settings.DEBUG:
     urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))

@@ -21,7 +21,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=128)
     slug = models.SlugField(max_length=128)
-    brand = models.CharField(max_length=128, default='un-branded')
+    brand = models.CharField(max_length=128)
     description = models.TextField(max_length=256, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=0)

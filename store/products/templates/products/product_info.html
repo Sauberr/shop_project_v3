@@ -1,6 +1,6 @@
 {% extends 'products/base.html' %}
 
-{% load static humanize %}
+{% load static humanize i18n %}
 
 
 {% block css %}
@@ -89,7 +89,7 @@
                             <div class="col-6">
 
 
-                                <label for="select">Qty</label>
+                                <label for="select">QTY</label>
 
                                 &nbsp;
 
@@ -114,7 +114,7 @@
 
                                 <button type="button" id="add-button" value="{{ product.id }}" class="btn btn-secondary btn-sm">
 
-                                Add to cart
+                                Add to Cart
 
                                 </button>
 

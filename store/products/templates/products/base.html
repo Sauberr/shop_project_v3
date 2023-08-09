@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -185,6 +185,22 @@
                     <div id="telephone" class="d-inline-flex">+ 657 654 554 344</div>
                 </a>
             </li>
+            <li class="nav-item">
+                <form class="nav-link" action="{% url 'set_language' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ redirect_to }}">
+                    <select id="language-select" name="language">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
+                                {{ language.name_local }} {{ language.code }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </li>
         </ul>
     </div>
 </nav>
@@ -216,6 +232,11 @@
     </body>
 
     <script src="{% static 'js/app.js' %}"></script>
+    <script>
+    document.getElementById("language-select").addEventListener("change", function() {
+        this.form.submit();
+    });
+    </script>
 
 
 {% block footer %} {% endblock %}
