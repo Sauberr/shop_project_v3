@@ -1,6 +1,6 @@
 {% extends 'products/base.html' %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/product.css' %}">
@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="container">
-  <h1 class="text-center">Favorite Products</h1>
+  <h1 class="text-center">{% trans 'Избраные продукты' %}</h1>
   {% if favorite_products %}
     <ul>
       <hr>

@@ -1,8 +1,7 @@
 {% extends "products/base.html" %}
 
 
-{% load static %}
-
+{% load static i18n %}
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -14,17 +13,15 @@
             <div class="col-lg-6">
                 <h1 class="mt-5 title">IGUS</h1>
                 <h5 class="subtitle">
-                    New looks and top brands on IGUS.
-                    Free worldwide shipping! Outlet: up to -70% Own brand. -20% for new customers with promo code - "IGUS".
+                    New styles and top brands at IGUS. Free worldwide shipping! Outlet: up to -70% Our own brand. -20% for new customers with promo code - 'IGUS'.'
                     <hr>
                 </h5>
-                    <a href="{% url 'products:product' %}"><button type="button" class="btn btn-secondary">Start buy</button></a>
+                <a href="{% url 'products:product' %}"><button type="button" class="btn btn-secondary">Start buying</button></a>
             </div>
         </div>
     </div>
   </section>
 </div>
-
 {% endblock %}
 
 
