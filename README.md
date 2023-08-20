@@ -19,4 +19,4 @@ pip install --upgrade pip pip install -r requirements.txt
 
 5.redis-server Run Celery:
 
-celery -A store worker --loglevel=INFO
+celery -A store worker --loglevel=INFO --pool=solo
