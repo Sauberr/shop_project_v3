@@ -12,6 +12,7 @@ services:
 
     depends_on:
       - redis
+      - celery
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -27,6 +28,19 @@ services:
       - 6379:6379
     networks:
       - my_network
+
+  celery:
+    image: store_celery
+    build:
+      context: .
+    container_name: celery-store
+    command: celery -A store worker -l INFO --pool=solo
+    depends_on:
+      - redis
+      - web-app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
 
 networks:
   my_network:

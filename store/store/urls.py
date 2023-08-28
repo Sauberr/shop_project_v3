@@ -6,6 +6,13 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path, re_path
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView, TokenVerifyView)
+import logging
+
+logger = logging.getLogger('store')
+logger.debug('This is a debug message')
+logger.info('This is a info message')
+logger.warning('This is a warning message')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

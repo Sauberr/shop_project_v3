@@ -315,3 +315,33 @@ SIMPLE_JWT = {
 
 CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+
+# Logger
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s %(levelname)s %(name)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard',
+            'filters': [],
+        },
+    },
+    'loggers': {
+        logger_name: {
+            'level': 'WARNING',
+            'propagate': True,
+        } for logger_name in ('django', 'django.request', 'django.db.backends', 'django.template', 'thenewboston')
+    },
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['console'],
+    }
+}
