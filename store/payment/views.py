@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from cart.cart import Cart
 from payment.models import Order, OrderItem, ShippingAddress
-
-# Create your views here.
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 def checkout(request):
@@ -48,17 +48,41 @@ def complete_order(request):
         if request.user.is_authenticated:
             order = Order.objects.create(full_name=name, email=email, shipping_address=shipping_address, amount_paid=total_cost, user=request.user)
             order_id = order.pk
+            product_list = []
             for item in cart:
                 OrderItem.objects.create(order_id=order_id, product=item['product'], quantity=item['qty'], price=item['price'], user=request.user)
+
+            all_products = product_list
+
+            # Email order
+
+            send_mail('Order received', 'Hi! ' + '\n\n' + 'Thank you for placing your order' + '\n\n' +
+                  'Please see your order below:' + '\n\n' + str(all_products) + '\n\n' + 'Total paid: $' +
+                  str(cart.get_discounted_total()), settings.EMAIL_HOST_USER, [email], fail_silently=False)
+
+
         # 2) Create order - > Guest users without an account
         else:
             if request.user.is_authenticated:
                 order = Order.objects.create(full_name=name, email=email, shipping_address=shipping_address,
-                                             amount_paid=total_cost, user=request.user)
+                amount_paid=total_cost, user=request.user)
+
                 order_id = order.pk
+                product_list = []
                 for item in cart:
                     OrderItem.objects.create(order_id=order_id, product=item['product'], quantity=item['qty'],
-                                             price=item['price'])
+                    price=item['price'])
+
+                    product_list.append(item['product'])
+
+                all_products = product_list
+
+            # Email order
+
+            send_mail('Order received', 'Hi! ' + '\n\n' + 'Thank you for placing your order' + '\n\n' +
+                    'Please see your order below:' + '\n\n' + str(all_products) + '\n\n' + 'Total paid: $' +
+                      str(cart.get_discounted_total()), settings.EMAIL_HOST_USER, [email], fail_silently=False)
+
         order_success = True
         response = JsonResponse({'success': order_success})
         return response
