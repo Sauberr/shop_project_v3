@@ -8,6 +8,7 @@ The project for study Django.
 - [PostgreSQL](https://www.postgresql.org/)
 - [Redis](https://redis.io/)
 - [Celery](https://docs.celeryq.dev/en/stable/)
+- [Docker](https://www.docker.com/)
 
 ## Local Developing
 
